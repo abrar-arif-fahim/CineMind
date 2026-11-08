@@ -1,0 +1,29 @@
+
+# Python virtual environment
+.venv/
+venv/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Django local database
+db.sqlite3
+
+# Environment variables and secrets
+.env
+.env.*
+
+# Allow safe configuration example
+!.env.example
+
+# Local development files
+.vscode/
+.idea/
+
+# Test and build files
+.pytest_cache/
+.coverage
+htmlcov/
+build/
+dist/
