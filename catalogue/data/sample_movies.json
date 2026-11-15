@@ -1,0 +1,140 @@
+{
+  "genres": [
+    {"tmdb_id": 28, "name": "Action"},
+    {"tmdb_id": 12, "name": "Adventure"},
+    {"tmdb_id": 16, "name": "Animation"},
+    {"tmdb_id": 35, "name": "Comedy"},
+    {"tmdb_id": 80, "name": "Crime"},
+    {"tmdb_id": 18, "name": "Drama"},
+    {"tmdb_id": 10751, "name": "Family"},
+    {"tmdb_id": 14, "name": "Fantasy"},
+    {"tmdb_id": 27, "name": "Horror"},
+    {"tmdb_id": 10402, "name": "Music"},
+    {"tmdb_id": 9648, "name": "Mystery"},
+    {"tmdb_id": 10749, "name": "Romance"},
+    {"tmdb_id": 878, "name": "Science Fiction"},
+    {"tmdb_id": 53, "name": "Thriller"}
+  ],
+  "movies": [
+    {
+      "tmdb_id": 278,
+      "title": "The Shawshank Redemption",
+      "overview": "A banker sentenced to life in a Maine prison for a murder he says he did not commit forms a long friendship with a fellow inmate while quietly holding on to hope.",
+      "release_date": "1994-09-23",
+      "runtime": 142,
+      "genres": [18, 80]
+    },
+    {
+      "tmdb_id": 238,
+      "title": "The Godfather",
+      "overview": "The ageing head of a New York crime family tries to pass control of his empire to his reluctant youngest son.",
+      "release_date": "1972-03-24",
+      "runtime": 175,
+      "genres": [18, 80]
+    },
+    {
+      "tmdb_id": 155,
+      "title": "The Dark Knight",
+      "overview": "Batman, a police lieutenant and a new district attorney join forces against organised crime in Gotham, until a chaotic criminal called the Joker pushes the city to the edge.",
+      "release_date": "2008-07-18",
+      "runtime": 152,
+      "genres": [18, 28, 80, 53]
+    },
+    {
+      "tmdb_id": 680,
+      "title": "Pulp Fiction",
+      "overview": "The lives of two hitmen, a boxer, a gangster's wife and a pair of diner robbers cross in a series of violent and darkly funny Los Angeles stories.",
+      "release_date": "1994-10-14",
+      "runtime": 154,
+      "genres": [53, 80]
+    },
+    {
+      "tmdb_id": 13,
+      "title": "Forrest Gump",
+      "overview": "A kind-hearted man from Alabama drifts through decades of American history while never giving up on his childhood sweetheart.",
+      "release_date": "1994-07-06",
+      "runtime": 142,
+      "genres": [35, 18, 10749]
+    },
+    {
+      "tmdb_id": 27205,
+      "title": "Inception",
+      "overview": "A thief who steals secrets from people's dreams is offered a chance at a clean slate if he can plant an idea in a target's mind instead.",
+      "release_date": "2010-07-16",
+      "runtime": 148,
+      "genres": [28, 878, 12]
+    },
+    {
+      "tmdb_id": 603,
+      "title": "The Matrix",
+      "overview": "A hacker learns that the world he lives in is a computer simulation and joins a group of rebels fighting the machines that control it.",
+      "release_date": "1999-03-31",
+      "runtime": 136,
+      "genres": [28, 878]
+    },
+    {
+      "tmdb_id": 157336,
+      "title": "Interstellar",
+      "overview": "With crops failing on Earth, a former pilot leads a team of astronauts through a wormhole in search of a new home for humanity.",
+      "release_date": "2014-11-07",
+      "runtime": 169,
+      "genres": [12, 18, 878]
+    },
+    {
+      "tmdb_id": 129,
+      "title": "Spirited Away",
+      "overview": "A ten-year-old girl wanders into a world of spirits and must work in a bathhouse for gods to free her parents and find her way home.",
+      "release_date": "2001-07-20",
+      "runtime": 125,
+      "genres": [16, 10751, 14]
+    },
+    {
+      "tmdb_id": 496243,
+      "title": "Parasite",
+      "overview": "A poor family schemes its way into jobs with a wealthy household, until an unexpected discovery threatens everything.",
+      "release_date": "2019-05-30",
+      "runtime": 132,
+      "genres": [35, 53, 18]
+    },
+    {
+      "tmdb_id": 862,
+      "title": "Toy Story",
+      "overview": "A cowboy doll feels pushed aside when a flashy space-ranger toy becomes his owner's new favourite, and the two rivals end up lost in the outside world.",
+      "release_date": "1995-11-22",
+      "runtime": 81,
+      "genres": [16, 12, 10751, 35]
+    },
+    {
+      "tmdb_id": 120,
+      "title": "The Lord of the Rings: The Fellowship of the Ring",
+      "overview": "A young hobbit inherits a powerful ring and sets out with eight companions to destroy it before its dark creator can reclaim it.",
+      "release_date": "2001-12-19",
+      "runtime": 178,
+      "genres": [12, 14, 28]
+    },
+    {
+      "tmdb_id": 98,
+      "title": "Gladiator",
+      "overview": "A Roman general is betrayed and forced into slavery, then fights his way up through the arenas to seek revenge on the emperor.",
+      "release_date": "2000-05-05",
+      "runtime": 155,
+      "genres": [28, 18, 12]
+    },
+    {
+      "tmdb_id": 244786,
+      "title": "Whiplash",
+      "overview": "An ambitious young jazz drummer is pushed to his limits by a ruthless music teacher at an elite conservatory.",
+      "release_date": "2014-10-10",
+      "runtime": 107,
+      "genres": [18, 10402]
+    },
+    {
+      "tmdb_id": 419430,
+      "title": "Get Out",
+      "overview": "A young Black man visits his white girlfriend's family for the weekend and slowly uncovers a disturbing secret behind their welcome.",
+      "release_date": "2017-02-24",
+      "runtime": 104,
+      "genres": [9648, 53, 27]
+    }
+  ]
+}
