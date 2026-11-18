@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}CineMind – Discover movies{% endblock %}
+
+{% block content %}
+<section>
+  <h1>Discover your next movie</h1>
+  <p class="muted">{{ movie_count }} movie{{ movie_count|pluralize }} in the catalogue.</p>
+  <form action="{% url 'catalogue:movie_list' %}" method="get" role="search">
+    <input type="search" name="q" placeholder="Search by title" aria-label="Search movies by title">
+    <button type="submit">Search</button>
+  </form>
+</section>
+
+{% if genres %}
+<section>
+  <h2>Browse by genre</h2>
+  <ul class="genre-list">
+    {% for genre in genres %}
+      <li><a href="{% url 'catalogue:movie_list' %}?genre={{ genre.pk }}">{{ genre.name }} ({{ genre.movie_count }})</a></li>
+    {% endfor %}
+  </ul>
+</section>
+{% endif %}
+
+<section>
+  <h2>Latest releases</h2>
+  {% if latest_movies %}
+    <ul class="movie-grid">
+      {% for movie in latest_movies %}
+        <li class="movie-card">
+          <a href="{% url 'catalogue:movie_detail' movie.pk %}">
+            {% if movie.poster_url %}
+              <img class="poster" src="{{ movie.poster_url }}" alt="Poster for {{ movie.title }}">
+            {% else %}
+              <div class="poster poster-placeholder" aria-hidden="true">{{ movie.title|first }}</div>
+            {% endif %}
+            <div class="info">
+              <strong>{{ movie.title }}</strong>
+              <div class="muted">{{ movie.release_year|default:"Year unknown" }}</div>
+            </div>
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+    <p><a href="{% url 'catalogue:movie_list' %}">See all movies →</a></p>
+  {% else %}
+    <p>The catalogue is empty for now. Movies will appear here once they are added.</p>
+  {% endif %}
+</section>
+{% endblock %}

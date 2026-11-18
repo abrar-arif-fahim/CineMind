@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}{{ movie.title }} – CineMind{% endblock %}
+
+{% block content %}
+<p><a href="{% url 'catalogue:movie_list' %}">← All movies</a></p>
+
+<article class="movie-detail">
+  {% if movie.poster_url %}
+    <img class="poster" src="{{ movie.poster_url }}" alt="Poster for {{ movie.title }}">
+  {% else %}
+    <div class="poster poster-placeholder" aria-hidden="true">{{ movie.title|first }}</div>
+  {% endif %}
+
+  <div>
+    <h1>{{ movie.title }}</h1>
+    <p class="muted">
+      {% if movie.release_date %}Released {{ movie.release_date|date:"j F Y" }}{% else %}Release date unknown{% endif %}
+      {% if movie.runtime %} · {{ movie.runtime }} min{% endif %}
+    </p>
+
+    {% with genres=movie.genres.all %}
+      {% if genres %}
+        <ul class="genre-list">
+          {% for genre in genres %}
+            <li><a href="{% url 'catalogue:movie_list' %}?genre={{ genre.pk }}">{{ genre.name }}</a></li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    <h2>Overview</h2>
+    <p>{{ movie.overview|default:"No overview available yet." }}</p>
+  </div>
+</article>
+{% endblock %}
