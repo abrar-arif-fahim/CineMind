@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Explore Movies | CineMind{% endblock %}
+
+{% block content %}
+<div class="container">
+    <header class="mb-4">
+        <p class="home-eyebrow mb-2">Find your next favourite</p>
+        <h1 class="fw-bold">Explore Movies</h1>
+        <p class="home-description">Discover stories by title, genre or release year.</p>
+    </header>
+
+    <form method="get" action="{{ request.path }}" class="catalogue-filters p-3 p-md-4 mb-5" role="search" aria-label="Search movies">
+        <div class="row g-3 align-items-end">
+            <div class="col-12 col-lg-5">
+                <label for="movie-search" class="form-label">Movie title</label>
+                <input type="search" class="form-control" id="movie-search" name="q" value="{{ request.GET.q }}" placeholder="Search by title">
+            </div>
+            <div class="col-12 col-sm-6 col-lg-4">
+                <label for="movie-genre" class="form-label">Genre</label>
+                <select class="form-select" id="movie-genre" name="genre">
+                    <option value="">All genres</option>
+                    {% for genre in genres %}
+                    <option value="{{ genre.pk }}"{% if request.GET.genre == genre.pk|stringformat:"s" %} selected{% endif %}>{{ genre.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-12 col-sm-6 col-lg-3">
+                <label for="movie-year" class="form-label">Release year</label>
+                <input type="number" class="form-control" id="movie-year" name="year" min="1" max="9999" step="1" value="{{ request.GET.year }}" placeholder="Any year">
+            </div>
+            <div class="col-12 d-flex flex-wrap gap-2">
+                <button class="btn home-browse-btn px-4" type="submit">Search</button>
+                <a class="btn catalogue-outline-btn" href="{{ request.path }}">Clear Filters</a>
+            </div>
+        </div>
+    </form>
+
+    <section aria-labelledby="results-title">
+        <h2 id="results-title" class="h4 mb-4">Movies{% if page_obj %} <span class="movie-year fs-6">({{ page_obj.paginator.count }})</span>{% endif %}</h2>
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 g-4">
+            {% for movie in movies %}
+            <div class="col">
+                <article class="card movie-card h-100">
+                    <img class="movie-poster card-img-top"
+                         src="{% if movie.poster_url %}{{ movie.poster_url }}{% else %}{% static 'images/poster-placeholder.svg' %}{% endif %}"
+                         alt="{% if movie.poster_url %}Poster for {{ movie.title }}{% else %}Poster unavailable for {{ movie.title }}{% endif %}"
+                         width="500" height="750" loading="lazy" decoding="async"
+                         data-fallback-src="{% static 'images/poster-placeholder.svg' %}">
+                    <div class="card-body d-flex flex-column">
+                        <p class="movie-year small mb-2">{{ movie.release_year|default_if_none:"Year unavailable" }}</p>
+                        <h3 class="h5 card-title">{{ movie.title }}</h3>
+                        <div class="d-flex flex-wrap gap-2 mt-2 mb-4" aria-label="Genres">
+                            {% for genre in movie.genres.all %}
+                            <span class="movie-genre">{{ genre.name }}</span>
+                            {% empty %}
+                            <span class="movie-year small">Genre unavailable</span>
+                            {% endfor %}
+                        </div>
+                        {% if movie_detail_url_name %}
+                            {% url movie_detail_url_name pk=movie.pk as detail_url %}
+                        {% endif %}
+                        {% if movie_detail_url_name and detail_url %}
+                        <a class="mt-auto" href="{{ detail_url }}">View Details<span class="visually-hidden"> for {{ movie.title }}</span> <span aria-hidden="true">&rarr;</span></a>
+                        {% else %}
+                        <span class="movie-year small mt-auto">Details coming soon</span>
+                        {% endif %}
+                    </div>
+                </article>
+            </div>
+            {% empty %}
+            <div class="col-12 home-empty-column">
+                <div class="home-empty text-center p-4 p-md-5">
+                    <h3 class="h4">No movies found</h3>
+                    <p class="home-description">Try a different title, genre or year. If you're browsing everything, check back soon for new additions.</p>
+                    <a class="btn catalogue-outline-btn" href="{{ request.path }}">Clear Filters</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        {% if page_obj.has_other_pages %}
+        <nav class="mt-5" aria-label="Movie results pages">
+            <ul class="pagination catalogue-pagination flex-wrap justify-content-center gap-2">
+                {% if page_obj.has_previous %}
+                <li class="page-item"><a class="page-link" href="{% querystring page=page_obj.previous_page_number %}">Previous</a></li>
+                {% else %}
+                <li class="page-item disabled"><span class="page-link">Previous</span></li>
+                {% endif %}
+                <li class="page-item active"><span class="page-link" aria-current="page">{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span></li>
+                {% if page_obj.has_next %}
+                <li class="page-item"><a class="page-link" href="{% querystring page=page_obj.next_page_number %}">Next</a></li>
+                {% else %}
+                <li class="page-item disabled"><span class="page-link">Next</span></li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
+    </section>
+</div>
+<script src="{% static 'js/home.js' %}" defer></script>
+{% endblock %}
