@@ -11,34 +11,39 @@
         <p class="home-description">Discover stories by title, genre or release year.</p>
     </header>
 
-    <form method="get" action="{{ request.path }}" class="catalogue-filters p-3 p-md-4 mb-5" role="search" aria-label="Search movies">
+    <form method="get" action="{% url 'catalogue:movie_list' %}" class="catalogue-filters p-3 p-md-4 mb-5" role="search" aria-label="Search movies">
         <div class="row g-3 align-items-end">
             <div class="col-12 col-lg-5">
                 <label for="movie-search" class="form-label">Movie title</label>
-                <input type="search" class="form-control" id="movie-search" name="q" value="{{ request.GET.q }}" placeholder="Search by title">
+                <input type="search" class="form-control" id="movie-search" name="q" value="{{ query|default_if_none:'' }}" placeholder="Search by title">
             </div>
             <div class="col-12 col-sm-6 col-lg-4">
                 <label for="movie-genre" class="form-label">Genre</label>
                 <select class="form-select" id="movie-genre" name="genre">
                     <option value="">All genres</option>
                     {% for genre in genres %}
-                    <option value="{{ genre.pk }}"{% if request.GET.genre == genre.pk|stringformat:"s" %} selected{% endif %}>{{ genre.name }}</option>
+                    <option value="{{ genre.pk }}"{% if selected_genre.pk == genre.pk %} selected{% endif %}>{{ genre.name }}</option>
                     {% endfor %}
                 </select>
             </div>
             <div class="col-12 col-sm-6 col-lg-3">
                 <label for="movie-year" class="form-label">Release year</label>
-                <input type="number" class="form-control" id="movie-year" name="year" min="1" max="9999" step="1" value="{{ request.GET.year }}" placeholder="Any year">
+                <select class="form-select" id="movie-year" name="year">
+                    <option value="">Any year</option>
+                    {% for year in years %}
+                    <option value="{{ year }}"{% if selected_year == year %} selected{% endif %}>{{ year }}</option>
+                    {% endfor %}
+                </select>
             </div>
             <div class="col-12 d-flex flex-wrap gap-2">
                 <button class="btn home-browse-btn px-4" type="submit">Search</button>
-                <a class="btn catalogue-outline-btn" href="{{ request.path }}">Clear Filters</a>
+                <a class="btn catalogue-outline-btn" href="{% url 'catalogue:movie_list' %}">Clear Filters</a>
             </div>
         </div>
     </form>
 
     <section aria-labelledby="results-title">
-        <h2 id="results-title" class="h4 mb-4">Movies{% if page_obj %} <span class="movie-year fs-6">({{ page_obj.paginator.count }})</span>{% endif %}</h2>
+        <h2 id="results-title" class="h4 mb-4">Movies{% if page_obj %} <span class="movie-year fs-6">({{ result_count }})</span>{% endif %}</h2>
         <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 g-4">
             {% for movie in movies %}
             <div class="col">
@@ -58,23 +63,21 @@
                             <span class="movie-year small">Genre unavailable</span>
                             {% endfor %}
                         </div>
-                        {% if movie_detail_url_name %}
-                            {% url movie_detail_url_name pk=movie.pk as detail_url %}
-                        {% endif %}
-                        {% if movie_detail_url_name and detail_url %}
-                        <a class="mt-auto" href="{{ detail_url }}">View Details<span class="visually-hidden"> for {{ movie.title }}</span> <span aria-hidden="true">&rarr;</span></a>
-                        {% else %}
-                        <span class="movie-year small mt-auto">Details coming soon</span>
-                        {% endif %}
+                        <a class="mt-auto" href="{% url 'catalogue:movie_detail' movie.pk %}">View Details<span class="visually-hidden"> for {{ movie.title }}</span> <span aria-hidden="true">&rarr;</span></a>
                     </div>
                 </article>
             </div>
             {% empty %}
             <div class="col-12 home-empty-column">
                 <div class="home-empty text-center p-4 p-md-5">
-                    <h3 class="h4">No movies found</h3>
-                    <p class="home-description">Try a different title, genre or year. If you're browsing everything, check back soon for new additions.</p>
-                    <a class="btn catalogue-outline-btn" href="{{ request.path }}">Clear Filters</a>
+                    {% if is_filtered %}
+                    <h3 class="h4">No movies match your search</h3>
+                    <p class="home-description">Try a different title, genre or year.</p>
+                    <a class="btn catalogue-outline-btn" href="{% url 'catalogue:movie_list' %}">Clear Filters</a>
+                    {% else %}
+                    <h3 class="h4">The catalogue is empty</h3>
+                    <p class="home-description mb-0">Check back soon for new additions.</p>
+                    {% endif %}
                 </div>
             </div>
             {% endfor %}

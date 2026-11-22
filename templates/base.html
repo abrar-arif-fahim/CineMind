@@ -20,7 +20,7 @@
     <header>
         <nav class="navbar navbar-expand-lg navbar-dark site-navbar">
             <div class="container">
-                <a class="navbar-brand" href="{% url 'home' %}">CineMind</a>
+                <a class="navbar-brand" href="{% url 'catalogue:home' %}">CineMind</a>
                 <button
                     class="navbar-toggler"
                     type="button"
@@ -35,10 +35,10 @@
                 <div class="collapse navbar-collapse" id="mainNavbar">
                     <ul class="navbar-nav ms-auto align-items-lg-center">
                         <li class="nav-item">
-                            <a class="nav-link{% if request.resolver_match.url_name == 'home' %} active{% endif %}" href="{% url 'home' %}"{% if request.resolver_match.url_name == 'home' %} aria-current="page"{% endif %}>Home</a>
+                            <a class="nav-link{% if request.resolver_match.url_name == 'home' %} active{% endif %}" href="{% url 'catalogue:home' %}"{% if request.resolver_match.url_name == 'home' %} aria-current="page"{% endif %}>Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link disabled" href="#" aria-disabled="true" tabindex="-1">Movies</a>
+                            <a class="nav-link{% if request.resolver_match.url_name == 'movie_list' or request.resolver_match.url_name == 'movie_detail' %} active{% endif %}" href="{% url 'catalogue:movie_list' %}"{% if request.resolver_match.url_name == 'movie_list' %} aria-current="page"{% endif %}>Movies</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link disabled" href="#" aria-disabled="true" tabindex="-1">Recommendations</a>

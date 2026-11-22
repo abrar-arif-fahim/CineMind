@@ -5,14 +5,9 @@
 
 {% block content %}
 <div class="container movie-detail">
-    {% if movie_list_url_name %}
-        {% url movie_list_url_name as movie_list_url %}
-        {% if movie_list_url %}
-        <nav class="mb-4" aria-label="Back navigation">
-            <a href="{{ movie_list_url }}"><span aria-hidden="true">&larr;</span> Back to Movies</a>
-        </nav>
-        {% endif %}
-    {% endif %}
+    <nav class="mb-4" aria-label="Back navigation">
+        <a href="{% url 'catalogue:movie_list' %}"><span aria-hidden="true">&larr;</span> Back to Movies</a>
+    </nav>
 
     <article aria-labelledby="movie-title">
         <div class="row g-4 g-lg-5">
@@ -29,13 +24,13 @@
                     <h1 id="movie-title" class="display-5 fw-bold mb-4">{{ movie.title|default:"Title unavailable" }}</h1>
                     <dl class="row mb-3">
                         <dt class="col-12 col-sm-4 mb-1">Release date</dt>
-                        <dd class="col-12 col-sm-8 home-description">{% if movie.release_date %}{{ movie.release_date|date:"j F Y" }}{% else %}Release date unavailable{% endif %}</dd>
+                        <dd class="col-12 col-sm-8 home-description">{% if movie.release_date %}{{ movie.release_date|date:"j F Y" }}{% else %}Release date unknown{% endif %}</dd>
                         <dt class="col-12 col-sm-4 mb-1">Runtime</dt>
-                        <dd class="col-12 col-sm-8 home-description">{% if movie.runtime %}{{ movie.runtime }} minutes{% else %}Runtime unavailable{% endif %}</dd>
+                        <dd class="col-12 col-sm-8 home-description">{% if movie.runtime %}{{ movie.runtime }} min{% else %}Runtime unavailable{% endif %}</dd>
                         <dt class="col-12 col-sm-4 mb-1">Genres</dt>
                         <dd class="col-12 col-sm-8 d-flex flex-wrap gap-2">
                             {% for genre in movie.genres.all %}
-                            <span class="movie-genre">{{ genre.name }}</span>
+                            <a class="movie-genre" href="{% url 'catalogue:movie_list' %}?genre={{ genre.pk }}">{{ genre.name }}</a>
                             {% empty %}
                             <span class="home-description">Genres unavailable</span>
                             {% endfor %}
@@ -45,7 +40,7 @@
 
                 <section class="mb-4" aria-labelledby="synopsis-title">
                     <h2 id="synopsis-title" class="h4">Synopsis</h2>
-                    <p class="home-description movie-synopsis">{{ movie.overview|default:"A synopsis is not available for this movie yet."|linebreaksbr }}</p>
+                    <p class="home-description movie-synopsis">{{ movie.overview|default:"No overview available yet."|linebreaksbr }}</p>
                 </section>
 
                 <div class="row g-3">
