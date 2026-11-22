@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}CineMind | Discover your next movie{% endblock %}
+
+{% block content %}
+<div class="container">
+    <section class="home-welcome p-4 p-md-5 mb-5" aria-labelledby="welcome-title">
+        <div class="col-lg-8">
+            <p class="home-eyebrow mb-3">Welcome to CineMind</p>
+            <h1 id="welcome-title" class="display-4 fw-bold mb-3">Your next great movie starts here.</h1>
+            <p class="home-description fs-5 mb-4">Explore new stories, revisit old favourites and find something for every mood. Let your curiosity choose tonight's movie.</p>
+            <a class="btn home-browse-btn px-4 py-3" href="{% url 'catalogue:movie_list' %}">Browse Movies <span aria-hidden="true">&rarr;</span></a>
+            <p class="home-description mt-3 mb-0">{{ movie_count }} movie{{ movie_count|pluralize }} in the catalogue.</p>
+        </div>
+    </section>
+
+    <form method="get" action="{% url 'catalogue:movie_list' %}" class="catalogue-filters p-3 p-md-4 mb-4" role="search">
+        <label for="home-search" class="form-label">Search by title</label>
+        <div class="d-flex flex-column flex-sm-row gap-2">
+            <input type="search" class="form-control" id="home-search" name="q">
+            <button class="btn home-browse-btn flex-shrink-0 text-nowrap px-4" type="submit">Search</button>
+        </div>
+    </form>
+
+    {% if genres %}
+    <section class="mb-5" aria-labelledby="genres-title">
+        <h2 id="genres-title" class="h4">Browse by genre</h2>
+        <ul class="list-unstyled d-flex flex-wrap gap-2">
+            {% for genre in genres %}
+            <li><a class="btn catalogue-outline-btn btn-sm" href="{% url 'catalogue:movie_list' %}?genre={{ genre.pk }}">{{ genre.name }} ({{ genre.movie_count }})</a></li>
+            {% endfor %}
+        </ul>
+    </section>
+    {% endif %}
+
+    <section id="featured-movies" class="mb-4" aria-labelledby="featured-title">
+        <div class="mb-4">
+            <p class="home-eyebrow mb-2">Explore the catalogue</p>
+            <h2 id="featured-title" class="h3 fw-bold">Featured movies</h2>
+            <p class="home-description mb-0">Recently released movies in the CineMind catalogue. Your next favourite could be here.</p>
+        </div>
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 g-4">
+            {% for movie in latest_movies %}
+            <div class="col">
+                <article class="card movie-card h-100">
+                    <img class="movie-poster card-img-top" src="{% if movie.poster_url %}{{ movie.poster_url }}{% else %}{% static 'images/poster-placeholder.svg' %}{% endif %}"
+                         alt="{% if movie.poster_url %}Poster for {{ movie.title }}{% else %}Poster unavailable for {{ movie.title }}{% endif %}"
+                         width="500" height="750" loading="lazy" decoding="async"
+                         data-fallback-src="{% static 'images/poster-placeholder.svg' %}">
+                    <div class="card-body">
+                        <p class="movie-year small mb-2">{{ movie.release_year|default_if_none:"Year unavailable" }}</p>
+                        <h3 class="h5 card-title"><a href="{% url 'catalogue:movie_detail' movie.pk %}">{{ movie.title }}</a></h3>
+                        <div class="d-flex flex-wrap gap-2 mt-3" aria-label="Genres">
+                            {% for genre in movie.genres.all %}
+                            <span class="movie-genre">{{ genre.name }}</span>
+                            {% empty %}
+                            <span class="movie-year small">Genre unavailable</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </article>
+            </div>
+            {% empty %}
+            <div class="col-12 home-empty-column">
+                <div class="home-empty text-center p-4 p-md-5">
+                    <h3 class="h4">A world of stories is on its way.</h3>
+                    <p class="home-description mb-0">The catalogue is empty. Check back soon to discover something new.</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+</div>
+<script src="{% static 'js/home.js' %}" defer></script>
+{% endblock %}

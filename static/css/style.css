@@ -1,0 +1,277 @@
+:root {
+    color-scheme: dark;
+    --cm-background: #0c121a;
+    --cm-surface: #131d28;
+    --cm-border: #263545;
+    --cm-text: #f2f6f8;
+    --cm-muted: #a7b5c3;
+    --cm-accent: #32d1bf;
+    --cm-accent-hover: #71e3d5;
+}
+
+/* Homepage: use the shared palette and Bootstrap's responsive grid. */
+.home-welcome {
+    border: 1px solid var(--cm-border);
+    border-radius: 1rem;
+    background: radial-gradient(ellipse at top right, #19443f, transparent 70%), var(--cm-surface);
+}
+
+.home-eyebrow {
+    color: var(--cm-accent);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.home-description, .movie-year {
+    color: var(--cm-muted);
+}
+
+.home-browse-btn {
+    background: var(--cm-accent);
+    color: #071311;
+    font-weight: 700;
+}
+
+.home-browse-btn:hover, .home-browse-btn:focus-visible {
+    background: var(--cm-accent-hover);
+    color: #071311;
+}
+
+.movie-card, .home-empty {
+    border: 1px solid var(--cm-border);
+    border-radius: 0.75rem;
+    background: var(--cm-surface);
+    color: var(--cm-text);
+}
+
+.movie-card {
+    overflow: hidden;
+}
+
+.movie-poster {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 2 / 3;
+    object-fit: cover;
+    background: var(--cm-surface);
+}
+
+.movie-card .card-body {
+    overflow-wrap: anywhere;
+}
+
+.movie-genre {
+    padding: 0.25rem 0.5rem;
+    border: 1px solid var(--cm-border);
+    border-radius: 0.35rem;
+    color: var(--cm-muted);
+    font-size: 0.75rem;
+}
+
+.home-empty-column {
+    width: 100%;
+}
+
+/* Catalogue controls share the movie card palette. */
+.catalogue-filters {
+    border: 1px solid var(--cm-border);
+    border-radius: 0.75rem;
+    background: var(--cm-surface);
+}
+
+.catalogue-filters .form-control,
+.catalogue-filters .form-select {
+    border-color: var(--cm-border);
+    background-color: var(--cm-background);
+    color: var(--cm-text);
+    color-scheme: dark;
+}
+
+.catalogue-filters .form-control::placeholder {
+    color: var(--cm-muted);
+}
+
+.catalogue-filters .form-select {
+    /* Bootstrap's default arrow is dark; use the shared teal accent. */
+    --bs-form-select-bg-img: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%2332d1bf' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
+}
+
+.catalogue-filters .form-control:focus,
+.catalogue-filters .form-select:focus {
+    border-color: var(--cm-accent);
+    box-shadow: 0 0 0 0.2rem rgb(50 209 191 / 20%);
+}
+
+.catalogue-outline-btn {
+    border: 1px solid var(--cm-accent);
+    color: var(--cm-accent);
+}
+
+.catalogue-outline-btn:hover,
+.catalogue-outline-btn:focus-visible {
+    border-color: var(--cm-accent-hover);
+    background: var(--cm-accent);
+    color: #071311;
+}
+
+.catalogue-pagination {
+    --bs-pagination-color: var(--cm-accent);
+    --bs-pagination-bg: var(--cm-surface);
+    --bs-pagination-border-color: var(--cm-border);
+    --bs-pagination-hover-color: var(--cm-accent-hover);
+    --bs-pagination-hover-bg: var(--cm-background);
+    --bs-pagination-hover-border-color: var(--cm-accent);
+    --bs-pagination-focus-color: var(--cm-accent);
+    --bs-pagination-focus-bg: var(--cm-background);
+    --bs-pagination-active-color: #071311;
+    --bs-pagination-active-bg: var(--cm-accent);
+    --bs-pagination-active-border-color: var(--cm-accent);
+    --bs-pagination-disabled-color: var(--cm-muted);
+    --bs-pagination-disabled-bg: var(--cm-surface);
+    --bs-pagination-disabled-border-color: var(--cm-border);
+}
+
+/* Movie details stack on mobile and share the catalogue palette. */
+.movie-detail {
+    overflow-wrap: anywhere;
+}
+
+.movie-detail-poster {
+    max-width: 350px;
+    border: 1px solid var(--cm-border);
+}
+
+.movie-detail-panel {
+    border: 1px solid var(--cm-border);
+    border-radius: 0.75rem;
+    background: var(--cm-surface);
+}
+
+.movie-detail-panel .btn:disabled {
+    border-color: var(--cm-border);
+    color: var(--cm-muted);
+    opacity: 1;
+}
+
+.movie-synopsis {
+    line-height: 1.8;
+}
+
+html {
+    min-width: 320px;
+    background: var(--cm-background);
+}
+
+body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+    background: var(--cm-background);
+    color: var(--cm-text);
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+a {
+    color: var(--cm-accent);
+}
+
+a:hover {
+    color: var(--cm-accent-hover);
+}
+
+.skip-link {
+    position: absolute;
+    z-index: 1100;
+    top: 0.75rem;
+    left: 0.75rem;
+    padding: 0.65rem 0.9rem;
+    transform: translateY(-160%);
+    border-radius: 0.35rem;
+    background: var(--cm-accent);
+    color: #071311;
+    font-weight: 600;
+}
+
+.skip-link:focus {
+    transform: translateY(0);
+}
+
+.site-navbar {
+    border-bottom: 1px solid var(--cm-border);
+    background: var(--cm-surface);
+}
+
+.navbar-brand {
+    color: var(--cm-text);
+    font-size: 1.35rem;
+    font-weight: 750;
+    letter-spacing: 0.02em;
+}
+
+.navbar-brand::after {
+    color: var(--cm-accent);
+    content: ".";
+}
+
+.site-navbar .nav-link {
+    margin-inline: 0.15rem;
+    padding-inline: 0.7rem;
+    color: var(--cm-muted);
+}
+
+.site-navbar .nav-link.disabled {
+    color: var(--cm-muted);
+    opacity: 0.72;
+}
+
+.site-navbar .register-link {
+    border: 1px solid var(--cm-accent);
+    border-radius: 0.4rem;
+    color: var(--cm-accent);
+}
+
+.site-main {
+    flex: 1 0 auto;
+    padding-block: 2rem;
+    /* Wrap unusually long titles and headings without hiding content. */
+    overflow-wrap: anywhere;
+}
+
+.site-footer {
+    padding-block: 1.25rem;
+    border-top: 1px solid var(--cm-border);
+    background: var(--cm-surface);
+    color: var(--cm-muted);
+    text-align: center;
+}
+
+@media (max-width: 991.98px) {
+    .site-navbar .navbar-nav {
+        align-items: stretch !important;
+        padding-block: 0.75rem;
+    }
+
+    .site-navbar .nav-link {
+        margin-inline: 0;
+        padding-block: 0.65rem;
+    }
+
+    .site-navbar .register-link {
+        display: inline-block;
+        width: fit-content;
+        margin-top: 0.35rem;
+        padding-inline: 0.75rem;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .site-main {
+        padding-block: 1.25rem;
+    }
+
+    .site-footer {
+        padding-block: 1rem;
+    }
+}

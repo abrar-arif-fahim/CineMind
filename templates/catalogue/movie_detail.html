@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ movie.title|default:"Movie details" }} | CineMind{% endblock %}
+
+{% block content %}
+<div class="container movie-detail">
+    <nav class="mb-4" aria-label="Back navigation">
+        <a href="{% url 'catalogue:movie_list' %}"><span aria-hidden="true">&larr;</span> Back to Movies</a>
+    </nav>
+
+    <article aria-labelledby="movie-title">
+        <div class="row g-4 g-lg-5">
+            <div class="col-12 col-md-4">
+                <img class="movie-poster movie-detail-poster rounded-3 d-block mx-auto"
+                     src="{% if movie.poster_url %}{{ movie.poster_url }}{% else %}{% static 'images/poster-placeholder.svg' %}{% endif %}"
+                     alt="{% if movie.poster_url %}Poster for {{ movie.title }}{% else %}Poster unavailable{% endif %}"
+                     width="500" height="750" decoding="async"
+                     data-fallback-src="{% static 'images/poster-placeholder.svg' %}">
+            </div>
+            <div class="col-12 col-md-8">
+                <header class="mb-4">
+                    <p class="home-eyebrow mb-2">Movie details</p>
+                    <h1 id="movie-title" class="display-5 fw-bold mb-4">{{ movie.title|default:"Title unavailable" }}</h1>
+                    <dl class="row mb-3">
+                        <dt class="col-12 col-sm-4 mb-1">Release date</dt>
+                        <dd class="col-12 col-sm-8 home-description">{% if movie.release_date %}{{ movie.release_date|date:"j F Y" }}{% else %}Release date unknown{% endif %}</dd>
+                        <dt class="col-12 col-sm-4 mb-1">Runtime</dt>
+                        <dd class="col-12 col-sm-8 home-description">{% if movie.runtime %}{{ movie.runtime }} min{% else %}Runtime unavailable{% endif %}</dd>
+                        <dt class="col-12 col-sm-4 mb-1">Genres</dt>
+                        <dd class="col-12 col-sm-8 d-flex flex-wrap gap-2">
+                            {% for genre in movie.genres.all %}
+                            <a class="movie-genre" href="{% url 'catalogue:movie_list' %}?genre={{ genre.pk }}">{{ genre.name }}</a>
+                            {% empty %}
+                            <span class="home-description">Genres unavailable</span>
+                            {% endfor %}
+                        </dd>
+                    </dl>
+                </header>
+
+                <section class="mb-4" aria-labelledby="synopsis-title">
+                    <h2 id="synopsis-title" class="h4">Synopsis</h2>
+                    <p class="home-description movie-synopsis">{{ movie.overview|default:"No overview available yet."|linebreaksbr }}</p>
+                </section>
+
+                <div class="row g-3">
+                    <div class="col-12 col-lg-6">
+                        <section class="movie-detail-panel p-3 h-100" aria-labelledby="rating-title">
+                            <h2 id="rating-title" class="h5">Your rating</h2>
+                            <p id="rating-help" class="home-description small">Movie ratings are coming soon.</p>
+                            <button class="btn catalogue-outline-btn" type="button" disabled aria-describedby="rating-help">Rate this movie</button>
+                        </section>
+                    </div>
+                    <div class="col-12 col-lg-6">
+                        <section class="movie-detail-panel p-3 h-100" aria-labelledby="watchlist-title">
+                            <h2 id="watchlist-title" class="h5">Your watchlist</h2>
+                            <p id="watchlist-help" class="home-description small">Saving movies to your watchlist is coming soon.</p>
+                            <button class="btn catalogue-outline-btn" type="button" disabled aria-describedby="watchlist-help">Add to Watchlist</button>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </article>
+</div>
+<script src="{% static 'js/home.js' %}" defer></script>
+{% endblock %}
