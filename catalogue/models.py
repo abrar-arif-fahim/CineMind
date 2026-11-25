@@ -1,6 +1,7 @@
 from django.core.validators import MinValueValidator
 from django.db import models
 from django.db.models.functions import Lower
+from django.urls import reverse
 
 # Base URL for TMDB poster images. Movie.poster_path stores only the file
 # part that TMDB returns (for example "/abc123.jpg").
@@ -92,6 +93,9 @@ class Movie(models.Model):
         if self.release_year:
             return f"{self.title} ({self.release_year})"
         return self.title
+
+    def get_absolute_url(self):
+        return reverse("catalogue:movie_detail", args=[self.pk])
 
     @property
     def release_year(self):

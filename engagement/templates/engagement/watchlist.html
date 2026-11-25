@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% load static %}
+{% comment %}
+  Starter page from the backend. The frontend version in templates/engagement/
+  replaces this file automatically; the variables are listed in
+  docs/accounts-engagement-pages.md.
+{% endcomment %}
+
+{% block title %}Your watchlist | CineMind{% endblock %}
+
+{% block content %}
+<div class="container">
+    <header class="mb-4">
+        <p class="home-eyebrow mb-2">Saved for later</p>
+        <h1 class="fw-bold">Your watchlist</h1>
+        <p class="home-description">{{ watchlist_count }} movie{{ watchlist_count|pluralize }}</p>
+    </header>
+
+    {% if entries %}
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 g-4">
+        {% for entry in entries %}
+        <div class="col">
+            <article class="card movie-card h-100">
+                <img class="movie-poster card-img-top"
+                     src="{% if entry.movie.poster_url %}{{ entry.movie.poster_url }}{% else %}{% static 'images/poster-placeholder.svg' %}{% endif %}"
+                     alt="{% if entry.movie.poster_url %}Poster for {{ entry.movie.title }}{% else %}Poster unavailable for {{ entry.movie.title }}{% endif %}"
+                     width="500" height="750" loading="lazy">
+                <div class="card-body d-flex flex-column">
+                    <p class="movie-year small mb-2">{{ entry.movie.release_year|default_if_none:"Year unavailable" }}</p>
+                    <h2 class="h5 card-title"><a href="{{ entry.movie.get_absolute_url }}">{{ entry.movie.title }}</a></h2>
+                    <p class="home-description small">Added {{ entry.added_at|date:"j M Y" }}</p>
+                    <form method="post" action="{% url 'engagement:remove_from_watchlist' entry.movie.pk %}" class="mt-auto">
+                        {% csrf_token %}
+                        <input type="hidden" name="next" value="{{ request.get_full_path }}">
+                        <button type="submit" class="btn catalogue-outline-btn btn-sm">Remove</button>
+                    </form>
+                </div>
+            </article>
+        </div>
+        {% endfor %}
+    </div>
+
+    {% if page_obj.has_other_pages %}
+    <nav class="mt-5" aria-label="Watchlist pages">
+        <ul class="pagination catalogue-pagination justify-content-center gap-2">
+            {% if page_obj.has_previous %}<li class="page-item"><a class="page-link" href="{% querystring page=page_obj.previous_page_number %}">Previous</a></li>{% endif %}
+            <li class="page-item active"><span class="page-link">{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span></li>
+            {% if page_obj.has_next %}<li class="page-item"><a class="page-link" href="{% querystring page=page_obj.next_page_number %}">Next</a></li>{% endif %}
+        </ul>
+    </nav>
+    {% endif %}
+    {% else %}
+    <div class="home-empty text-center p-4 p-md-5">
+        <h2 class="h4">Your watchlist is empty</h2>
+        <p class="home-description">Save movies from their detail page to watch them later.</p>
+        <a class="btn home-browse-btn" href="{% url 'catalogue:movie_list' %}">Browse movies</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
