@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% comment %}
+  Starter page from the backend. The frontend version in templates/accounts/
+  replaces this file automatically; the variables are listed in
+  docs/accounts-engagement-pages.md.
+{% endcomment %}
+
+{% block title %}Your profile | CineMind{% endblock %}
+
+{% block content %}
+<div class="container">
+    <header class="mb-4 d-flex flex-wrap justify-content-between align-items-end gap-3">
+        <div>
+            <p class="home-eyebrow mb-2">Your profile</p>
+            <h1 class="fw-bold mb-0">{{ user.username }}</h1>
+        </div>
+        <form method="post" action="{% url 'accounts:logout' %}">
+            {% csrf_token %}
+            <button type="submit" class="btn catalogue-outline-btn">Log out</button>
+        </form>
+    </header>
+
+    <div class="row g-3 mb-5">
+        <div class="col-12 col-md-4"><div class="movie-detail-panel p-3 h-100"><p class="home-description mb-1">Movies rated</p><p class="h3 mb-0">{{ rating_count }}</p></div></div>
+        <div class="col-12 col-md-4"><div class="movie-detail-panel p-3 h-100"><p class="home-description mb-1">Average score</p><p class="h3 mb-0">{% if average_score %}{{ average_score|floatformat:1 }} / 5{% else %}–{% endif %}</p></div></div>
+        <div class="col-12 col-md-4"><div class="movie-detail-panel p-3 h-100"><p class="home-description mb-1">In your watchlist</p><p class="h3 mb-0">{{ watchlist_count }}</p></div></div>
+    </div>
+
+    <section class="mb-5">
+        <h2 class="h4 mb-3">Your latest ratings</h2>
+        {% if recent_ratings %}
+        <ul class="list-unstyled">
+            {% for rating in recent_ratings %}
+            <li class="mb-2"><a href="{{ rating.movie.get_absolute_url }}">{{ rating.movie.title }}</a> – {{ rating.score }}/5</li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p class="home-description">You haven’t rated any movies yet. <a href="{% url 'catalogue:movie_list' %}">Find something to rate</a>.</p>
+        {% endif %}
+    </section>
+
+    <section>
+        <h2 class="h4 mb-3">Recently saved</h2>
+        {% if recent_watchlist %}
+        <ul class="list-unstyled">
+            {% for entry in recent_watchlist %}
+            <li class="mb-2"><a href="{{ entry.movie.get_absolute_url }}">{{ entry.movie.title }}</a></li>
+            {% endfor %}
+        </ul>
+        <a href="{% url 'engagement:watchlist' %}">See your whole watchlist <span aria-hidden="true">&rarr;</span></a>
+        {% else %}
+        <p class="home-description">Your watchlist is empty.</p>
+        {% endif %}
+    </section>
+</div>
+{% endblock %}

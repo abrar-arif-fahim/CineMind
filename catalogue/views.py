@@ -1,5 +1,8 @@
 from django.db.models import Count, F
+from django.db.models import Avg, Count
 from django.views.generic import DetailView, ListView, TemplateView
+
+from engagement.views import movie_engagement_context
 
 from .forms import MovieFilterForm
 from .models import Genre, Movie
@@ -72,8 +75,20 @@ class MovieListView(ListView):
 
 
 class MovieDetailView(DetailView):
-    """One movie's page. An unknown id gives a normal 404 page."""
+    """One movie's page. An unknown id gives a normal 404 page.
 
-    queryset = Movie.objects.prefetch_related("genres")
+    The movie also carries `average_rating` (None until someone rates it) and
+    `rating_count`, calculated in the same database query.
+    """
+
+    queryset = Movie.objects.prefetch_related("genres").annotate(
+        average_rating=Avg("ratings__score"),
+        rating_count=Count("ratings"),
+    )
     template_name = "catalogue/movie_detail.html"
     context_object_name = "movie"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update(movie_engagement_context(self.request.user, self.object))
+        return context

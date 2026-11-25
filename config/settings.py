@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'catalogue',
+    'accounts',
+    'engagement',
 ]
 
 MIDDLEWARE = [
@@ -110,6 +112,14 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
+
+
+# Login and logout
+# https://docs.djangoproject.com/en/6.1/ref/settings/#login-url
+
+LOGIN_URL = 'accounts:login'
+LOGIN_REDIRECT_URL = 'catalogue:home'
+LOGOUT_REDIRECT_URL = 'catalogue:home'
 
 
 # Static files (CSS, JavaScript, Images)

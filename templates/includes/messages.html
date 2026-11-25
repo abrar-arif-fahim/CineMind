@@ -1,0 +1,14 @@
+{% comment %}
+  Feedback after an action ("Your rating was saved", "Wrong password"...).
+  Included once in base.html, so every page shows it. Restyle freely.
+{% endcomment %}
+{% if messages %}
+<div class="container">
+    {% for message in messages %}
+    <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags|default:'info' }}{% endif %} alert-dismissible fade show" role="{% if message.tags == 'error' %}alert{% else %}status{% endif %}">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
